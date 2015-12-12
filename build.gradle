@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-3595'
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.0.23"
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.intellij'
+
+intellij {
+    version '15.0'
+    plugins 'kotlin'
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir 'src'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':format')
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-3595'
+}
+
+idea.project.ipr {
+    beforeMerged { project ->
+        project.modulePaths.clear()
+    }
+}
+
+task setup {
+    dependsOn ideaModule, ideaProject
+    doLast {
+        copy {
+            from '.'
+            into '.idea/'
+            include '*.ipr'
+            rename { "modules.xml" }
+        }
+        project.delete "${project.name}.ipr"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
+
+
