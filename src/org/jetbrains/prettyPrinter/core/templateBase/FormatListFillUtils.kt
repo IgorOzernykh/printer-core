@@ -11,7 +11,7 @@ import java.util.ArrayList
  * User: anlun
  */
 public interface FormatListFillUtils {
-    final public fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList(
+    public fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList(
               insertPlaceMap: Map<String, IPT>
             , variants      : Map<String, FormatSet>
     ): List<Pair<InsertPlace, FormatSet>>? {
@@ -26,7 +26,7 @@ public interface FormatListFillUtils {
             if (placeVariants == null) { return null }
 
             val placeBox = placeInfo.boxToSuit
-            val suitableVariants = placeVariants filter { v -> placeBox isSuitable v.toBox() }
+            val suitableVariants = placeVariants.filter { v -> placeBox isSuitable v.toBox() }
             if (suitableVariants.isEmpty()) { return null }
 
             list.add(Pair(placeInfo.toInsertPlace(), suitableVariants))

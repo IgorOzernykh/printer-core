@@ -11,9 +11,9 @@ import org.jetbrains.prettyPrinter.core.util.string.TagPlaceLine
  * User: anlun
  */
 public interface FullConstructionUtils {
-    final val FULL_CONSTRUCTION_TAG: String
+    val FULL_CONSTRUCTION_TAG: String
         get() = "full construction"
-    final val JUNK_TEXT: String
+    val JUNK_TEXT: String
         get() = "A"
 
     public fun getFullConstructionInsertPlaceMap(): Map<String, SmartInsertPlace> =
@@ -30,7 +30,7 @@ public interface FullConstructionUtils {
         return contentRelation.first
     }
 
-    final public fun getFullConstructionLineEquationMap(): Map<Int, LineEquation> {
+    public fun getFullConstructionLineEquationMap(): Map<Int, LineEquation> {
         val contentRelation = getContentRelation(JUNK_TEXT, getFullConstructionInsertPlaceMap())
         return contentRelation.second
     }
