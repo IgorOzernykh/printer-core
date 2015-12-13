@@ -57,6 +57,10 @@ task setup {
     }
 }
 
+jar {
+    from sourceSets.main.allSource
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.5'
 }
