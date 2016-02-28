@@ -264,10 +264,10 @@ fun List<String>.getLineEquations(
         val tagPlacesInLine = list.flatMap { t -> t }
         if (tagPlacesInLine.isEmpty()) { continue }
 
-        val penalty = lineRange.getLength() - tagPlacesInLine.fold(0) { r, tgp ->
+        val penalty = lineRange.length - tagPlacesInLine.fold(0) { r, tgp ->
             val range = tagToRangeMap.get(tgp.tag)
             val intersection = range?.intersection(lineRange)
-            r + (intersection?.getLength() ?: 0)
+            r + (intersection?.length ?: 0)
         }
         lineNumberToEquation.put(count, LineEquation(penalty, tagPlacesInLine.toSet()))
     }

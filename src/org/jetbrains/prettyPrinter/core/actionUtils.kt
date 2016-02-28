@@ -13,18 +13,18 @@ import org.jetbrains.prettyPrinter.core.printer.Printer
  * User: anlun
  */
 
-public interface PrinterOwner {
-  public fun getPrinter(): Printer?
-  public fun setPrinter(printer: Printer)
+interface PrinterOwner {
+  fun getPrinter(): Printer?
+  fun setPrinter(printer: Printer)
 }
 
-public fun Project.performUndoWrite(task: () -> Unit) {
+fun Project.performUndoWrite(task: () -> Unit) {
   WriteCommandAction.runWriteCommandAction(this) {
     CommandProcessor.getInstance().runUndoTransparentAction { task() }
   }
 }
 
-public fun AnActionEvent.getPsiFileFromContext(): PsiFile? {
+fun AnActionEvent.getPsiFileFromContext(): PsiFile? {
   val psiFile = getData(CommonDataKeys.PSI_FILE)
   if (psiFile == null) { return null }
   val elementAt = psiFile.findElementAt(0)

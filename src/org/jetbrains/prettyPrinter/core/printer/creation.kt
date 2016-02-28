@@ -13,9 +13,9 @@ import java.io.InputStreamReader
 /**
  * User: anlun
  */
-public fun readFile(vf: VirtualFile): String {
+fun readFile(vf: VirtualFile): String {
     try {
-        val inputStream = vf.getInputStream()
+        val inputStream = vf.inputStream
         if (inputStream == null) { return "" }
         val reader = BufferedReader(InputStreamReader(inputStream))
         val firstLine = reader.readLine()
@@ -37,12 +37,12 @@ public fun readFile(vf: VirtualFile): String {
     return ""
 }
 
-public fun fillPrinterTemplatesByFile(file: VirtualFile, printer: Printer, factory: PsiFileFactory, tabSize: Int) {
+fun fillPrinterTemplatesByFile(file: VirtualFile, printer: Printer, factory: PsiFileFactory, tabSize: Int) {
     VfsUtilCore.visitChildrenRecursively(file, object: VirtualFileVisitor<Int>() {
-        public override fun visitFile(file: VirtualFile) : Boolean {
-            if (file.isDirectory()) { return true }
+        override fun visitFile(file: VirtualFile) : Boolean {
+            if (file.isDirectory) { return true }
             val fileSpaceIndentRepresentation = readFile(file).replaceIndentTabs(tabSize)
-            val psiFile = factory.createFileFromText(file.getName(), file.getFileType(), fileSpaceIndentRepresentation)
+            val psiFile = factory.createFileFromText(file.name, file.fileType, fileSpaceIndentRepresentation)
             printer.fillTemplateLists(psiFile)
             return true
         }

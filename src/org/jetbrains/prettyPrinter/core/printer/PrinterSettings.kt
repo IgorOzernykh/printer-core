@@ -6,7 +6,7 @@ import org.jetbrains.format.FormatSet.FormatSetType
 /**
  * User: anlun
  */
-public class PrinterSettings(
+class PrinterSettings(
   var         width: Int
 , val       project: Project
 , var formatSetType: FormatSetType = FormatSetType.D3AF
@@ -14,7 +14,7 @@ public class PrinterSettings(
 , var multipleExprStmtVariants: Boolean = true
 ) {
     companion object {
-        public fun createProjectSettings(
+        fun createProjectSettings(
                 width: Int, project: Project
         ): PrinterSettings = PrinterSettings(width, project)
     }

@@ -20,17 +20,17 @@ import org.jetbrains.prettyPrinter.core.util.psiElement.getOffsetInStartLine
 abstract class Printer(
         private val settings: PrinterSettings
 ): Memoization(), CommentConnectionUtils {
-    public fun hasToUseMultipleListElemVariants(): Boolean = settings.multipleListElemVariants
-    public fun hasToUseMultipleExprStmtVariants(): Boolean = settings.multipleExprStmtVariants
+    fun hasToUseMultipleListElemVariants(): Boolean = settings.multipleListElemVariants
+    fun hasToUseMultipleExprStmtVariants(): Boolean = settings.multipleExprStmtVariants
 
-    public fun setMultipleListElemVariantNeeds(f: Boolean) { settings.multipleListElemVariants = f }
-    public fun setMultipleExprStmtVariantNeeds(f: Boolean) { settings.multipleExprStmtVariants = f }
-    public fun setFormatSetType(f: FormatSetType) { settings.formatSetType = f }
-    public fun setMaxWidth(f: Int) { settings.width = f }
+    fun setMultipleListElemVariantNeeds(f: Boolean) { settings.multipleListElemVariants = f }
+    fun setMultipleExprStmtVariantNeeds(f: Boolean) { settings.multipleExprStmtVariants = f }
+    fun setFormatSetType(f: FormatSetType) { settings.formatSetType = f }
+    fun setMaxWidth(f: Int) { settings.width = f }
 
-    override public fun getMaxWidth(): Int = settings.width
-    public fun    getProject(): Project   = settings.project
-    public fun   getEmptySet(): FormatSet =
+    override fun getMaxWidth(): Int = settings.width
+    fun    getProject(): Project   = settings.project
+    fun   getEmptySet(): FormatSet =
             when (settings.formatSetType) {
                 FormatSetType.D1   -> FormatMap1D   (getMaxWidth())
                 FormatSetType.D2   -> FormatMap2D_LL(getMaxWidth())
@@ -41,25 +41,25 @@ abstract class Printer(
 
                 else -> FormatMap3D(getMaxWidth())
             }
-    override public fun getInitialSet(f: Format): FormatSet {
+    override fun getInitialSet(f: Format): FormatSet {
         val fs = getEmptySet()
         fs.add(f)
         return fs
     }
 
-    abstract public fun fillTemplateLists(templateFile: PsiFile)
-    abstract public fun createElementFromText(p: PsiElement, text: String): PsiElement?
-    abstract public fun countTemplates(): Int
-    abstract public fun addTemplate(p: PsiElement)
-    abstract public fun getTemplate(p: PsiElement): Template<SmartInsertPlace>?
+    abstract fun fillTemplateLists(templateFile: PsiFile)
+    abstract fun createElementFromText(p: PsiElement, text: String): PsiElement?
+    abstract fun countTemplates(): Int
+    abstract fun addTemplate(p: PsiElement)
+    abstract fun getTemplate(p: PsiElement): Template<SmartInsertPlace>?
     abstract protected fun applyTmplt(p: PsiElement)
     abstract protected fun reprintElementWithChildren_AllMeaningful(psiElement: PsiElement)
     abstract protected fun getTemplateVariants(p: PsiElement, context: VariantConstructionContext): FormatSet
 
-    public fun reprint(javaFile: PsiFile) { reprintElementWithChildren(javaFile) }
+    fun reprint(javaFile: PsiFile) { reprintElementWithChildren(javaFile) }
 
     /// public only for testing purposes!!!
-    public fun reprintElementWithChildren(psiElement: PsiElement) {
+    fun reprintElementWithChildren(psiElement: PsiElement) {
         reprintElementWithChildren_AllMeaningful(psiElement) // variant for partial template
         //        reprintElementWithChildren_OnlyPsiFile(psiElement) // variant for situations with full template
     }
@@ -68,7 +68,7 @@ abstract class Printer(
         walker(psiElement) { p -> if (p is PsiFile) applyTmplt(p) }
     }
 
-    public fun getVariants(p: PsiElement, context: VariantConstructionContext = defaultContext()): FormatSet {
+    fun getVariants(p: PsiElement, context: VariantConstructionContext = defaultContext()): FormatSet {
         val pCommentContext = getCommentContext(p)
         val widthToSuit = context.widthToSuit
         val variantConstructionContext = VariantConstructionContext(pCommentContext, widthToSuit)
@@ -85,7 +85,7 @@ abstract class Printer(
 
             addToCache(p, resultWithoutOuterContextComments)
         } else {
-            val s = p.getText() ?: ""
+            val s = p.text ?: ""
             if (s.contains(" ")) { log.add(s) }
             resultWithoutOuterContextComments = getVariantsByText(p)
 
@@ -97,24 +97,24 @@ abstract class Printer(
         return variants
     }
 
-    override public fun getVariantsByText(p: PsiElement): FormatSet {
+    override fun getVariantsByText(p: PsiElement): FormatSet {
         val offsetInStartLine = p.getOffsetInStartLine()
         val normalizedFillConstant = Math.max(p.getFillConstant(), 0)
-        return getInitialSet(Format.text(p.getText(), offsetInStartLine + normalizedFillConstant))
+        return getInitialSet(Format.text(p.text, offsetInStartLine + normalizedFillConstant))
     }
 
-    public var constructions : Int = 0
-    public fun areTemplatesFilled(): Boolean = areTemplatesFilled
+    var constructions : Int = 0
+    fun areTemplatesFilled(): Boolean = areTemplatesFilled
     protected var areTemplatesFilled  : Boolean = false
 
-    public fun reprintCurrentPsi(currPsi: PsiElement, oldP: PsiElement) {
+    fun reprintCurrentPsi(currPsi: PsiElement, oldP: PsiElement) {
         val list = walker2(currPsi, oldP)
         for (el in list) {
             applyNewTmplt(el, oldP)
         }
     }
 
-    public fun applyNewTmplt(currPsi: PsiElement, oldPsi: PsiElement) {
+    fun applyNewTmplt(currPsi: PsiElement, oldPsi: PsiElement) {
         val currPsiTmpltStr = getTemplate(currPsi).toString()
         val oldPsiTmpltStr = getTemplate(oldPsi).toString()
         if (currPsiTmpltStr == oldPsiTmpltStr) {

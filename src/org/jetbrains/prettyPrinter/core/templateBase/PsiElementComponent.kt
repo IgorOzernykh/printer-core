@@ -23,16 +23,16 @@ import java.util.HashMap
 /**
  * User: anlun
  */
-abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace, T: Template<IPT>>(
+abstract class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace, T: Template<IPT>>(
         open val printer: Printer
 ): FullConstructionUtils, FormatListFillUtils {
-    open public fun getTmplt(p: ET): T? {
+    open fun getTmplt(p: ET): T? {
         val text = p.deleteSpaces(true) //deleting leading comments
 
         try {
             val newElement = getNewElement(text)
             if (newElement == null) { return null }
-            val containsComment = newElement.getChildren().any() { ch -> ch is PsiComment }
+            val containsComment = newElement.children.any() { ch -> ch is PsiComment }
             if (containsComment) { return null }
 
             return getTemplateFromElement(newElement)
@@ -40,9 +40,9 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
     }
 
     abstract protected fun getNewElement         (text: String): ET?
-    abstract public    fun getTemplateFromElement(newP: ET): T?
+    abstract fun getTemplateFromElement(newP: ET): T?
 
-    open public fun getAndSaveTemplate(newP: ET) {
+    open fun getAndSaveTemplate(newP: ET) {
         val template = getTmplt(newP) ?: return
         val templateString = template.toString()
         val value = templateStringSet.get(templateString)
@@ -54,7 +54,7 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
     protected val templateStringSet: HashMap<String, Int> = HashMap()
     protected val templates_1      : ArrayList<T>         = ArrayList()
 
-    open public fun getVariants(p: ET, context: VariantConstructionContext): FormatSet {
+    open fun getVariants(p: ET, context: VariantConstructionContext): FormatSet {
         val subtreeVariants = prepareSubtreeVariants(p, context)
         val pTagSet = getTags(p)
 
@@ -85,7 +85,7 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
 
     abstract protected fun isTemplateSuitable(p: ET, tmplt: T): Boolean
 
-    public fun <IPT: SmartInsertPlace> getVariants(
+    fun <IPT: SmartInsertPlace> getVariants(
               text          : String
             , insertPlaceMap: Map<String, IPT>
             , variants      : Map<String, FormatSet>
@@ -95,7 +95,7 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
         return insertToText(printer.getMaxWidth(), text, formatListsWithRanges)
     }
 
-    public fun <IPT: SmartInsertPlace> getVariant_SingleFormat(
+    fun <IPT: SmartInsertPlace> getVariant_SingleFormat(
               text          : String
             , insertPlaceMap: Map<String, IPT>
             , variants      : Map<String, Format>
@@ -105,9 +105,9 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
         return insertFormatsToText(text, formatListsWithRanges)
     }
 
-    open public fun getTemplates(): List<T> = templates_1
+    open fun getTemplates(): List<T> = templates_1
 
-    override public fun getContentRelation(
+    override fun getContentRelation(
             text: String, insertPlaceMap: Map<String, SmartInsertPlace>
     ): Pair< Map<TagPlaceLine, Int>
            , Map<Int, LineEquation>
@@ -122,13 +122,13 @@ abstract public class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace,
     }
 
     //TODO: Unfortunately need to be public
-    open public fun getElementsVariants(
+    open fun getElementsVariants(
             elementList: List<PsiElement>
             ,   context: VariantConstructionContext
             , separator: (Int) -> Format
     ): FormatSet = getElementsVariants(elementList, context, { l: Format -> l }, separator)
 
-    open public fun getElementsVariants(
+    open fun getElementsVariants(
               elementList: List<PsiElement>
             ,     context: VariantConstructionContext
             , elementWrap: (Format) -> Format

@@ -25,7 +25,7 @@ open class SmartInsertPlace(
 , val fillConstant : Int
 , val boxToSuit    : Box
 ) {
-    public fun toInsertPlace(): InsertPlace = InsertPlace(range, fillConstant)
+    fun toInsertPlace(): InsertPlace = InsertPlace(range, fillConstant)
 
     open fun shiftRight(delta: Int) = SmartInsertPlace(range.shiftRight(delta), fillConstant, boxToSuit)
 
@@ -35,16 +35,16 @@ open class SmartInsertPlace(
         return "MultiB" // Also in case of everywhere suitable box
     }
 
-    override public fun toString(): String = "#$fillConstant ${boxToString()}#"
+    override fun toString(): String = "#$fillConstant ${boxToString()}#"
 }
 
-open public class Template<T: SmartInsertPlace>(
+open class Template<T: SmartInsertPlace>(
   val text                   : String
 , val insertPlaceMap         : Map<String, T>
 , val tagPlaceToLineNumberMap: Map<TagPlaceLine, Int>
 , val lineEquationMap        : Map<Int, LineEquation>
 ) {
-    override public fun toString(): String {
+    override fun toString(): String {
         val replacementSet = insertPlaceMap.entries
                                 .map { e -> Pair(e.value.range, e.key + e.value.toString()) }
         val replacementList = replacementSet.toList()
@@ -52,14 +52,14 @@ open public class Template<T: SmartInsertPlace>(
     }
 }
 
-open public class PsiTemplateGen<T: PsiElement, SIP: SmartInsertPlace>(
+open class PsiTemplateGen<T: PsiElement, SIP: SmartInsertPlace>(
   val psi                : T
 , insertPlaceMap         : Map<String, SIP>
 , tagPlaceToLineNumberMap: Map<TagPlaceLine, Int>
 , lineEquationMap        : Map<Int, LineEquation>
-): Template<SIP>(psi.getText() ?: "", insertPlaceMap, tagPlaceToLineNumberMap, lineEquationMap)
+): Template<SIP>(psi.text ?: "", insertPlaceMap, tagPlaceToLineNumberMap, lineEquationMap)
 
-open public class PsiTemplate<T: SmartInsertPlace>(
+open class PsiTemplate<T: SmartInsertPlace>(
   psi                    : PsiElement
 , insertPlaceMap         : Map<String, T>
 , tagPlaceToLineNumberMap: Map<TagPlaceLine, Int>

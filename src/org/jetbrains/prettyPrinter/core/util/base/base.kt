@@ -123,7 +123,7 @@ private fun insertToText_old(
         width: Int, text: String, fmtListsWithRanges: List<Pair<InsertPlace, FormatSet>>
 ): FormatSet = insertToTextInRange(text, fmtListsWithRanges, 0, text.length, FormatSet.initial(width))
 
-public fun insertToText_new(
+fun insertToText_new(
         width: Int, text: String, fmtListsWithRanges: List<Pair<InsertPlace, FormatSet>>
 ): FormatSet {
     val sortedFmtListsWithRanges = fmtListsWithRanges.sortedBy { p -> p.first.range.startOffset }
@@ -189,13 +189,13 @@ private fun insertToTextInRange(
 }
 
 abstract class WidthToSuit {
-    abstract public fun getFirstLineSuitWidth(): Int
-    abstract public fun  getLastLineSuitWidth(): Int
+    abstract fun getFirstLineSuitWidth(): Int
+    abstract fun  getLastLineSuitWidth(): Int
 
-    public fun getMaxSuitWidth(): Int =
+    fun getMaxSuitWidth(): Int =
             Math.max(getFirstLineSuitWidth(), getLastLineSuitWidth())
 
-    public fun isFormatSuitable(fmt: Format): Boolean {
+    fun isFormatSuitable(fmt: Format): Boolean {
         if (fmt.firstLineWidth >= getFirstLineSuitWidth()) { return false }
         return fmt.totalWidth < getLastLineSuitWidth()
     }
@@ -204,8 +204,8 @@ abstract class WidthToSuit {
 class SimpleWidthToSuit(
         width: Int
 ): WidthToSuit() {
-    override public fun getFirstLineSuitWidth(): Int = width
-    override public fun  getLastLineSuitWidth(): Int = width
+    override fun getFirstLineSuitWidth(): Int = width
+    override fun  getLastLineSuitWidth(): Int = width
 
     private val width = width
 }
@@ -214,8 +214,8 @@ class BaseWidthToSuit(
         firstLineWidth: Int
         , lastLineWidth: Int
 ): WidthToSuit() {
-    override public fun getFirstLineSuitWidth(): Int = firstLineWidth
-    override public fun  getLastLineSuitWidth(): Int = lastLineWidth
+    override fun getFirstLineSuitWidth(): Int = firstLineWidth
+    override fun  getLastLineSuitWidth(): Int = lastLineWidth
 
     private val firstLineWidth = firstLineWidth
     private val  lastLineWidth =  lastLineWidth

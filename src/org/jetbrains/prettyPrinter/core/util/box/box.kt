@@ -12,11 +12,11 @@ data class Box(
 ) {
     companion object {
         private val everywhereSuitableBox: Box = Box(-1, -1)
-        public fun getEverywhereSuitable(): Box = everywhereSuitableBox
+        fun getEverywhereSuitable(): Box = everywhereSuitableBox
     }
 
-    public fun isEverywhereSuitable(): Boolean = width < 0 && height < 0
-    public infix fun isSuitable(box: Box): Boolean {
+    fun isEverywhereSuitable(): Boolean = width < 0 && height < 0
+    infix fun isSuitable(box: Box): Boolean {
         if (isEverywhereSuitable()) { return true }
 
         val areOneLiners = box.height == height && box.height <= 1
@@ -42,4 +42,4 @@ fun String.toBox(fillConstant: Int): Box {
     return Box(width, height)
 }
 
-public fun Format.toBox(): Box = Box(totalWidth, height)
+fun Format.toBox(): Box = Box(totalWidth, height)

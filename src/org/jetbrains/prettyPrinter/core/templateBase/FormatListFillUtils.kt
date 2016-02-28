@@ -10,8 +10,8 @@ import java.util.ArrayList
 /**
  * User: anlun
  */
-public interface FormatListFillUtils {
-    public fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList(
+interface FormatListFillUtils {
+    fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList(
               insertPlaceMap: Map<String, IPT>
             , variants      : Map<String, FormatSet>
     ): List<Pair<InsertPlace, FormatSet>>? {
@@ -35,7 +35,7 @@ public interface FormatListFillUtils {
         return list
     }
 
-    public fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList_SingleFormat(
+    fun <IPT: SmartInsertPlace> fillVariantsToInsertPlaceList_SingleFormat(
               insertPlaceMap: Map<String, IPT>
             , variants      : Map<String, Format>
     ): List<Pair<InsertPlace, Format>>? {

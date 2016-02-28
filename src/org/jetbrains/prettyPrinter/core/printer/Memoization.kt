@@ -9,24 +9,24 @@ import org.jetbrains.prettyPrinter.core.printer.CommentConnectionUtils.VariantCo
 /**
  * User: anlun
  */
-open public class Memoization {
-    public var memorizedVariantUseCount: Int = 0
-    public var           cacheMissCount: Int = 0
+open class Memoization {
+    var memorizedVariantUseCount: Int = 0
+    var           cacheMissCount: Int = 0
 
     private val delta: Int = 10
 
-    public val log: ArrayList<String> = ArrayList()
+    val log: ArrayList<String> = ArrayList()
 
-    public val psiElementVariantCache: HashMap<PsiElement, FormatSet> = HashMap()
+    val psiElementVariantCache: HashMap<PsiElement, FormatSet> = HashMap()
 
-    public fun clearCache() {
+    fun clearCache() {
         clearLog()
         psiElementVariantCache.clear()
     }
 
-    public var replaceTime: Long = 0
+    var replaceTime: Long = 0
 
-    public fun clearLog() {
+    fun clearLog() {
         log.clear()
         memorizedVariantUseCount = 0
         cacheMissCount = 0

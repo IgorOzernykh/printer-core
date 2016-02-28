@@ -11,21 +11,21 @@ import java.util.HashMap
 /**
  * User: anlun
  */
-public interface CommentConnectionUtils {
-    public fun getMaxWidth(): Int
-    public fun getInitialSet(f: Format = Format.empty): FormatSet
+interface CommentConnectionUtils {
+    fun getMaxWidth(): Int
+    fun getInitialSet(f: Format = Format.empty): FormatSet
 
-    public class CommentConnection(
+    class CommentConnection(
       val contentBefore: FormatSet?
     , val contentAfter : FormatSet?
     )
 
-    public class VariantConstructionContext(
+    class VariantConstructionContext(
       val commentContext: MutableMap<PsiElement, CommentConnection>
     , val widthToSuit   : WidthToSuit
     )
 
-    public fun defaultContext(): VariantConstructionContext =
+    fun defaultContext(): VariantConstructionContext =
             VariantConstructionContext(HashMap(), SimpleWidthToSuit(getMaxWidth()))
 
     fun updateCommentConnection(context: CommentConnection?, update: CommentConnection?): CommentConnection? {
@@ -57,7 +57,7 @@ public interface CommentConnectionUtils {
         context.put(p, updatedConnection)
     }
 
-    public fun surroundVariantsByAttachedComments(
+    fun surroundVariantsByAttachedComments(
                      p: PsiElement
             , variants: FormatSet
             ,  context: VariantConstructionContext
@@ -73,7 +73,7 @@ public interface CommentConnectionUtils {
         return result
     }
 
-    public fun getCommentContext(p: PsiElement): MutableMap<PsiElement, CommentConnection> {
+    fun getCommentContext(p: PsiElement): MutableMap<PsiElement, CommentConnection> {
         val context = HashMap<PsiElement, CommentConnection>()
 
         val children = p.children
@@ -130,7 +130,7 @@ public interface CommentConnectionUtils {
     }
 
     private fun blockStatementToCodeBlock(p: PsiElement): PsiElement =
-            if (p is PsiBlockStatement) p.getCodeBlock() else p
+            if (p is PsiBlockStatement) p.codeBlock else p
 
-    public fun getVariantsByText(p: PsiElement): FormatSet
+    fun getVariantsByText(p: PsiElement): FormatSet
 }
