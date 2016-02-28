@@ -71,6 +71,13 @@ open class ListInsertTemplate(
 , val insertPlaceList: List<InsertPlace>
 )
 
+class ListTemplate<ET: PsiElement, IPT: SmartInsertPlace>(
+        p: ET
+        , insertPlaceMap: Map<String, IPT>
+        , tagPlaceToLineNumberMap: Map<TagPlaceLine, Int>
+        , lineEquationMap        : Map<Int, LineEquation>
+): PsiTemplateGen<ET, IPT>(p, insertPlaceMap, tagPlaceToLineNumberMap, lineEquationMap)
+
 fun insertPlaceListTemplateToFormatList(
          width: Int
 ,        tmplt: ListInsertTemplate
