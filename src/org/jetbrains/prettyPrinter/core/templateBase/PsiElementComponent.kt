@@ -30,7 +30,7 @@ abstract class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace, T: Tem
         val text = p.deleteSpaces(true) //deleting leading comments
 
         try {
-            val newElement = getNewElement(text)
+            val newElement = getNewElement(p, text)
             if (newElement == null) { return null }
             val containsComment = newElement.children.any() { ch -> ch is PsiComment }
             if (containsComment) { return null }
@@ -39,7 +39,7 @@ abstract class PsiElementComponent<ET: PsiElement, IPT: SmartInsertPlace, T: Tem
         } catch (e: ClassCastException) { return null }
     }
 
-    abstract protected fun getNewElement         (text: String): ET?
+    abstract protected fun getNewElement         (p: ET, text: String): ET?
     abstract fun getTemplateFromElement(newP: ET): T?
 
     open fun getAndSaveTemplate(newP: ET) {
